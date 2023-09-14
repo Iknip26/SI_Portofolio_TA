@@ -1,0 +1,31 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('req_reset_pw', function (Blueprint $table) {
+            $table->id('id_req_reset_pw');
+            $table->foreignId('id_user');
+            $table->index('id_user');
+            $table->integer('token');
+            $table->dateTime('expired_date');
+            $table->foreign('id_user')->references('id_user')->on('user_accounts')->onDelete('cascade');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('req_reset_pw');
+    }
+};
