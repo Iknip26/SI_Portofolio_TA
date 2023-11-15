@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('comments', function (Blueprint $table) {
-            $table->id('id_comment');
+            $table->id('id');
             $table->foreignId('id_content');
             $table->index('id_content');
             $table->foreignId('id_user');
             $table->index('id_user');
             $table->text('comment');
             $table->timestamps();
-            $table->foreign('id_user')->references('id_user')->on('user_accounts')->onDelete('cascade');
-            $table->foreign('id_content')->references('id_content')->on('contents')->onDelete('cascade');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('id_content')->references('id')->on('contents')->onDelete('cascade');
         });
     }
 

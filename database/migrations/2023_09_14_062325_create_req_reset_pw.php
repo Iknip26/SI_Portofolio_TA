@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('req_reset_pw', function (Blueprint $table) {
-            $table->id('id_req_reset_pw');
+        Schema::create('req_reset_pws', function (Blueprint $table) {
+            $table->id('id');
             $table->foreignId('id_user');
             $table->index('id_user');
             $table->integer('token');
             $table->dateTime('expired_date');
-            $table->foreign('id_user')->references('id_user')->on('user_accounts')->onDelete('cascade');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('req_reset_pw');
+        Schema::dropIfExists('req_reset_pws');
     }
 };

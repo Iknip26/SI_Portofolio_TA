@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dosen', function (Blueprint $table) {
-            $table->id('id_dosen');
+        Schema::create('dosens', function (Blueprint $table) {
+            $table->id('id');
             $table->foreignId('id_user');
             $table->index('id_user');
-            $table->timestamps();
             $table->string('name');
+            $table->string('image_profile');
             $table->string('contact');
-            $table->string('email')->unique();
             $table->string('specialization');
-            $table->foreign('id_user')->references('id_user')->on('user_accounts');
+            $table->timestamps();
+            $table->foreign('id_user')->references('id')->on('users');
         });
     }
 
@@ -29,7 +29,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dosen');
+        Schema::dropIfExists('dosens');
         
     }
 };

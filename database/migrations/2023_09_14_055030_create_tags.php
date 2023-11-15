@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tags', function (Blueprint $table) {
-            $table->id('id_tag');
+            $table->id('id');
             $table->foreignId('id_content');
             $table->index('id_content');
-            $table->enum('tag', ['Software Engineering', 'Data Science', 'IOT', 'Internet and Network', 'Game']);
-            $table->foreign('id_content')->references('id_content')->on('contents')->onDelete('cascade');
+            $table->enum('tag', ['Software Engineering', 'Intelligent Gaming', 'Data Science', 'System Security and Cybersecurity', 'Mobile and Responsive App Development', 'Blockchain Technology and Digital Finance', 'Artificial Intelligence and Natural Language Processing', 'IoT']);
+            $table->foreign('id_content')->references('id')->on('contents')->onDelete('cascade');
         });
     }
 

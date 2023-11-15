@@ -13,12 +13,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('statistics', function (Blueprint $table) {
-            $table->id('id_statistic');
+            $table->id('id');
             $table->foreignId('id_user');
             $table->index('id_user');
             $table->string('page_visited');
             $table->timestamp('visit_date');
-            $table->foreign('id_user')->references('id_user')->on('user_accounts')->onDelete('cascade');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

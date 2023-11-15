@@ -12,14 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('contents', function (Blueprint $table) {
-            $table->id('id_content');
+            $table->id('id');
             $table->foreignId('id_dosen');
             $table->index("id_dosen");
-            $table->enum('content_type', ['Proposal/Jurnal', 'Tugas akhir']);
             $table->string('tittle');
+            $table->enum('tipe_konten', ['jurnal', 'tugas_akhir']);
+            $table->String("content_url")->nullable(true);
+            $table->String("video_url")->nullable(true);
+            $table->String("github_url")->nullable(true);
             $table->text('description');
+            $table->string('owner_contact');
             $table->timestamps();
-            $table->foreign('id_dosen')->references('id_dosen')->on('dosen')->onDelete('cascade');
+            $table->foreign('id_dosen')->references('id')->on('dosens')->onDelete('cascade');
         });
     }
 
