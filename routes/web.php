@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\adminAccountController;
+use App\Http\Controllers\adminDashboardController;
 use App\Http\Controllers\adminPortoController;
 use App\Http\Controllers\portofolioPage_controller;
 use App\Http\Controllers\publicPageController;
@@ -23,6 +24,7 @@ Route::get('/showcase', [publicPageController::class, 'showcase'])->name('public
 Route::get('/login', [publicPageController::class, 'login'])->name('public.login');
 Route::get('/portofolio', [publicPageController::class, 'portofolio'])->name('public.portofolio');
 Route::get('/team', [publicPageController::class, 'team'])->name('public.team');
+Route::get('/login', [publicPageController::class, 'login'])->name('public.login');
 
 
 // ADMIN
@@ -46,5 +48,30 @@ Route::get('/kelolaproyek/pilih_akun/edit_projek/{id}', [adminPortoController::c
 Route::post('/kelolaproyek/pilih_akun/update_projek/{id}', [adminPortoController::class, 'updateProjek'])->name('proyek.update_projek');
 
 Route::get('/kelolaproyek/pilih_akun/hapus_projek/{id}', [adminPortoController::class, 'hapusProjek'])->name('proyek.hapus_projek');
+
+// ADMIN DASHBOARD
+Route::get('/admin/dashboard/analytic', [adminDashboardController::class, 'showAnalytic'])->name('admin.dashboard.analytic');
+Route::get('/admin/dashboard/porto', [adminDashboardController::class, 'showPortoList'])->name('admin.dashboard.porto');
+Route::get('/admin/dashboard/member', [adminDashboardController::class, 'showMemberList'])->name('admin.dashboard.member');
+Route::get('/admin/dashboard/member/detail/{id}', [adminDashboardController::class, 'showMemberListDetail'])->name('admin.dashboard.member.detail');
+Route::get('/admin/dashboard/member/edit/{id}', [adminDashboardController::class, 'editMemberProfiles'])->name('admin.dashboard.member.edit');
+Route::post('/admin/dashboard/member/saveedit/{id}', [adminDashboardController::class, 'saveEditMemberProfiles'])->name('admin.dashboard.member.saveedit');
+
+// ADMIN PORTOFOLIO
+Route::get('/admin/porto/showAllPorto', [adminPortoController::class, 'showAllPorto'])->name('admin.porto.showAllPorto');
+Route::get('/admin/porto/addPorto', [adminPortoController::class, 'addPorto'])->name('admin.porto.addPorto');
+Route::post('/admin/porto/storePorto', [adminPortoController::class, 'storePorto'])->name('admin.porto.storePorto');
+Route::get('/admin/porto/searchPorto', [adminPortoController::class, 'searchPorto'])->name('admin.porto.searchPorto');
+Route::get('/admin/porto/delete/{id}', [adminPortoController::class, 'deletePorto'])->name('admin.porto.delete');
+Route::get('/admin/porto/update/{id}', [adminPortoController::class, 'updatePorto'])->name('admin.porto.update');
+Route::post('/admin/porto/update/{id}', [adminPortoController::class, 'saveUpdate'])->name('admin.porto.saveupdate');
+
+// ADMIN ACCOUNT
+Route::get('/admin/account/showAllAccount', [adminAccountController::class, 'showAllAccount'])->name('admin.account.showAllAccount');
+Route::get('/admin/account/create', [adminAccountController::class, 'createAccount'])->name('admin.account.create');
+Route::post('/admin/account/store', [adminAccountController::class, 'storeAccount'])->name('admin.account.store');
+Route::get('/admin/account/delete/{id}', [adminAccountController::class, 'destroy'])->name('admin.account.delete');
+Route::get('/admin/account/update{id}', [adminAccountController::class, 'updateAccount'])->name('admin.account.update');
+Route::post('/admin/account/saveupdate/{id}', [adminAccountController::class, 'saveUpdate'])->name('admin.account.saveupdate');
 
 ?>

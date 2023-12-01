@@ -15,12 +15,14 @@ return new class extends Migration
             $table->id('id');
             $table->foreignId('id_dosen');
             $table->index("id_dosen");
+            $table->string('thumbnail_image_url');
             $table->string('tittle');
             $table->enum('tipe_konten', ['jurnal', 'tugas_akhir']);
             $table->String("content_url")->nullable(true);
             $table->String("video_url")->nullable(true);
             $table->String("github_url")->nullable(true);
             $table->text('description');
+            $table->string('owner');
             $table->string('owner_contact');
             $table->timestamps();
             $table->foreign('id_dosen')->references('id')->on('dosens')->onDelete('cascade');
