@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 
 class publicPageController extends Controller
 {
+    public function login(){
+        return view('public.login');
+    }
     public function homescreen(){
         return view('public.index');
     }

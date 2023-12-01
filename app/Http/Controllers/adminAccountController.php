@@ -18,6 +18,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use PhpParser\Node\Expr\Cast\String_;
+use SebastianBergmann\CodeUnit\FunctionUnit;
 
 // use GuzzleHttp\Psr7\Request;
 
@@ -87,7 +91,7 @@ public function store(Request $request)
         // Buat thumbnail dengan lebar dan tinggi yang diinginkan
         $thumbnailPath = public_path('storage/photos/card/' . $filenameSimpan);
         Image::make($image)
-            ->fit(270, 300)
+            ->fit(400, 500)
             ->save($thumbnailPath);
 
         // Buat versi persegi dengan lebar dan tinggi yang sama
@@ -99,7 +103,7 @@ public function store(Request $request)
          // Buat versi persegi dengan lebar dan tinggi yang sama
          $squarePath = public_path('storage/photos/icon/' . $filenameSimpan);
          Image::make($image)
-             ->fit(20, 20)
+             ->fit(100, 100)
              ->save($squarePath);
 
         $path = $filenameSimpan;
@@ -193,7 +197,7 @@ public function store(Request $request)
             // Buat thumbnail dengan lebar dan tinggi yang diinginkan
             $cardPath = public_path('storage/photos/card/' . $filenameSimpan);
             Image::make($request->image_profile)
-                ->fit(270, 300)
+                ->fit(400, 500)
                 ->save($cardPath);
 
 
@@ -219,14 +223,13 @@ public function store(Request $request)
             // Buat versi square dengan lebar dan tinggi yang sama
             $profileViewPath = public_path('storage/photos/profile_view/' . $filenameSimpan);
             Image::make($request->image_profile)
-                ->fit(20, 20)
+                ->fit(300, 400)
                 ->save($profileViewPath);
 
             $dosens->update([
                 'image_profile'     => $filenameSimpan,
                 'contact'   => $request->contact,
                 'name'   => $request->name,
-                'specialization'   => $request->specialization
             ]);
 
             return redirect()->route('account.index')
@@ -236,7 +239,6 @@ public function store(Request $request)
                 'image_profile' => "default_img.png",
                 'contact'   => $request->contact,
                 'name'   => $request->name,
-                'specialization'   => $request->specialization
             ]);
 
             return redirect()->route('account.index')
@@ -253,7 +255,7 @@ public function store(Request $request)
 
         $dosens->delete();
         $accounts->delete();
-        return redirect()->route('account.index')
+        return redirect()->route('admin.account.showAllAccount')
                 ->withSuccess('Akun berhasil di hapus.');
     }
 
@@ -270,5 +272,125 @@ public function store(Request $request)
         ->where('contents.id', '=', $id)->get();
 
         return view('kelola_proyek', compact('projects', 'dosen_pembimbing'));
+    }
+
+
+
+
+    // BARUU
+
+    public function showAllAccount(){
+        $users = User::all();
+        return view('admin.account.allaccount', compact('users'));
+    }
+
+    public function createAccount(){
+        return view('admin.account.addnewaccount');
+    }
+
+    public function storeAccount(Request $request){
+
+        // dd($request->password, $request->confirm_password);
+
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|unique:users',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|unique:users',
+            // 'password' => 'required|min:8|confirmed',
+            // 'confirm_password' => 'required|min:8|same:password'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        $userAccount = User::create([
+            'username' => $request->username,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'role' => $request->role,
+            'password' => Hash::make($request->password),
+        ]);
+
+        if($request->role == "Dosen"){
+            dosens::create([
+                'image_profile' => 'default_img.png',
+                'id_user' => $userAccount->id, // Menggunakan ID akun yang baru saja dibuat
+                'contact' => "Input contact here",
+                'name'=> $request->first_name. " " . $request->last_name,
+                'major' => "Input major here",
+            ]);
+
+        }
+
+        return redirect()->route('admin.account.showAllAccount')->withSuccess('Account succesfully created.');
+    }
+
+
+
+    public function updateAccount(string $id){
+        $users = User::where('id', $id)->first();
+        return view('admin.account.editaccount', compact('users'));
+    }
+
+
+
+    public function saveUpdate(Request $request, String $id){
+
+        $users = User::find($id);
+
+        if($request->checkbox == null){
+            $validator = Validator::make($request->all(), [
+                'username' => 'required|unique:users,email,'.$id.',id',
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'email' => 'required|unique:users,email,'.$id.',id'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()
+                            ->withErrors($validator)
+                            ->withInput();
+            }
+
+            $users->update([
+                'username'     => $request->username,
+                'first_name'   => $request->first_name,
+                'first_name'   => $request->last_name,
+                'role' => $request->role,
+                'email' => $request->email
+            ]);
+
+        }else{
+
+            $validator = Validator::make($request->all(), [
+                'username' => 'required|unique:users,email,'.$id.',id',
+                'first_name' => 'required',
+                'last_name' => 'required',
+                'email' => 'required|unique:users,email,'.$id.',id',
+                'password' => 'required|min:8|confirmed',
+                'confirm_password' => 'required|min:8|same:password'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()
+                            ->withErrors($validator)
+                            ->withInput();
+            }
+            $users->update([
+                'username'     => $request->username,
+                'first_name'   => $request->first_name,
+                'first_name'   => $request->last_name,
+                'role' => $request->role,
+                'password' => Hash::make($request->password),
+                'email' => $request->email
+            ]);
+        }
+
+        return redirect()->route('admin.account.showAllAccount')->withSuccess('Account succesfully updated.');
     }
 }
