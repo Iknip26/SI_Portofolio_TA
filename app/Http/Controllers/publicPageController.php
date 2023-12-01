@@ -21,4 +21,14 @@ class publicPageController extends Controller
         return view('public.showcase', compact('dosens'));
     }
 
+    public function portofolio(){
+        // $dosens = dosens::all();
+        return view('public.portofolio');
+    }
+
+    public function team(){
+        // $dosens = dosens::all();
+        return view('public.lecturer');
+    }
+
 }
