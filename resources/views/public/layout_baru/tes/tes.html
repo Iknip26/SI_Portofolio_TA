@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="styles.css" />
+        <title>Scroll Animation Example</title>
+        <style>
+            body {
+                margin: 0;
+                font-family: "Arial", sans-serif;
+            }
+
+            .container {
+                height: 1500px; /* Tinggi container agar dapat di-scroll */
+            }
+
+            .animated-element {
+                width: 100px;
+                height: 100px;
+                background-color: #3498db;
+                margin-top: 200px; /* Jarak dari atas */
+                opacity: 0; /* Atur opasitas awal menjadi 0 */
+                transform: translateY(50px); /* Posisi awal sebelum animasi */
+                transition: all 1s ease-in-out; /* Animasi opasitas selama 1 detik */
+                margin-bottom: 20px; /* Jarak antar elemen */
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="animated-element"></div>
+            <div class="animated-element"></div>
+            <div class="animated-element"></div>
+            <div class="animated-element"></div>
+            <div class="animated-element"></div>
+            <!-- Tambahkan elemen sesuai kebutuhan -->
+        </div>
+
+        <script src="script.js"></script>
+    </body>
+</html>

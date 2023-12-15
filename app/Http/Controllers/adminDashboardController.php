@@ -11,6 +11,7 @@ use App\Models\tags;
 use App\Models\User;
 use Dotenv\Util\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -27,7 +28,7 @@ class adminDashboardController extends Controller
         $datas =  DB::table('contents')
         ->join('dosens', 'contents.id_dosen', '=', 'dosens.id')
         ->select('contents.*', 'dosens.name')
-        ->get();
+        ->paginate(7);
 
         foreach($datas as $data){
             $tmp = [];
@@ -37,7 +38,6 @@ class adminDashboardController extends Controller
             }
             array_push($arrayTags, $tmp);
         }
-
         return view('admin.dashboard.porto', compact('datas', 'arrayTags'));
     }
 
@@ -47,9 +47,9 @@ class adminDashboardController extends Controller
         ->join('dosens', 'contents.id_dosen', '=', 'dosens.id')
         ->select('contents.*', 'dosens.*')
         ->distinct()
-        ->get();
+        ->paginate(7);
 
-        $dosens = dosens::all();
+        $dosens = dosens::paginate(7);
 
         $arraySpecialities = [];
         $projectCount = [];
@@ -63,11 +63,15 @@ class adminDashboardController extends Controller
                 array_push($arraySpecialities, $tmp);
         }
 
+        // dd($arraySpecialities);
+
         foreach ($dosens as $data){
             $tmpcount = contents::where('id_dosen', $data->id)->count();
             array_push($projectCount, $tmpcount);
         }
-        return view('admin.dashboard.memberlist', compact('datas', 'arraySpecialities', 'projectCount', 'dosens'));
+
+        $datauser = session('datauser');
+        return view('admin.dashboard.memberlist', compact('datas', 'arraySpecialities', 'projectCount', 'dosens','datauser'));
     }
 
 
@@ -81,7 +85,7 @@ class adminDashboardController extends Controller
         ->distinct()
         ->get();
 
-        $contents = contents::where('id_dosen', $id)->get();
+        $contents = contents::where('id_dosen', $id)->paginate(7);
         $dosens = dosens::where('dosens.id', '=', $id)->first();
         $emails = DB::table('users')
         ->select('users.email')
@@ -129,9 +133,14 @@ class adminDashboardController extends Controller
     }
 
     public function editMemberProfiles(String $id){
-        $dosens = dosens::find($id);
-        return view('admin.dashboard.edit_profile', compact('dosens'));
 
+        if(Auth::user()->role == "Admin"){
+            $dosens = dosens::find($id);
+            return view('admin.dashboard.edit_profile', compact('dosens'));
+        }else{
+            $dosens = dosens::where('id_user', Auth::user()->id)->first();
+            return view('admin.dashboard.edit_profile', compact('dosens'));
+        }
     }
 
     public function saveEditMemberProfiles(Request $request, String $id){

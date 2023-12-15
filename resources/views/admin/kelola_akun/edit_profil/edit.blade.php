@@ -1,4 +1,4 @@
-@extends('admin.kelola_akun.edit_profil.layouts')
+@extends('admin.dashboard.layouts')
 
 @section('content')
     <div class="row justify-content-center mt-3">

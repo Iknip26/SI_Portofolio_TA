@@ -1,65 +1,94 @@
 @extends('admin.dashboard.layouts')
 
 @section('content')
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success" role="alert">
-            {{ $message }}
-        </div>
-    @endif
 
     <div class="flex-row flex p-4">
+        @if (session('success'))
+            <div class="ms-6 text-gray-500 font-bold mt-8 text-lg">
+                {{ session('success') }}
+            </div>
+        @endif
         {{-- <button
             class="bg-transparent hover:bg-green-600 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded mr-3"
             style="border: 4px solid#025E5A; color: #025E5A; border-radius: 5px;">Admin</button>
         <button
             class="bg-transparent hover:bg-green-600 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded mr-3"
             style="border: 4px solid#025E5A; color: #025E5A; border-radius: 5px;">Lecturer</button> --}}
-        <button type="button" onclick="window.location.href='{{ route('admin.account.create') }}'"
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-auto">+ Add New
-            Account</button>
+        @if (Auth::user()->role == 'Admin')
+            <button type="button" onclick="window.location.href='{{ route('admin.account.create') }}'"
+                class="bg-blue-500 hover:bg-green-500 text-white font-bold py-2 px-4 rounded ml-auto me-2">+ Add New
+                Account</button>
+        @endif
+
 
     </div>
 
-    <div class="container mx-auto p-4">
+    <div class="container md:px-6 p-4">
 
-        <div class="overflow-x-auto">
-            <table class="table-auto w-full bg-white border border-gray-300 md:rounded-lg">
-                <thead class="bg-gray-200">
+        <div class="overflow-x-auto w-full shadow-md shadow-slate-500 rounded-lg">
+            <table class="table-auto w-full bg-white md:rounded-lg ">
+                <thead class="bg-white">
                     <tr>
-                        <th class="px-4 py-2 text-sm md:text-base" style="color: #025E5A;">Role</th>
-                        <th class="px-4 py-2 text-sm md:text-base" style="color: #025E5A;">Email</th>
-                        <th class="px-4 py-2 text-sm md:text-base" style="color: #025E5A;">Status</th>
-                        <th class="px-4 py-2 text-sm md:text-base" style="color: #025E5A;">Last Login</th>
-                        <th class="px-4 py-2 text-sm md:text-base" style="color: #025E5A;">Action</th>
+                        <th class="px-4 py-4 text-sm md:text-base" style="color: #025E5A;">Role</th>
+                        <th class="px-4 py-4 text-sm md:text-base" style="color: #025E5A;">Email</th>
+                        <th class="px-4 py-4 text-sm md:text-base" style="color: #025E5A;">Status</th>
+                        <th class="px-4 py-4 text-sm md:text-base" style="color: #025E5A;">Last Login</th>
+                        @if (Auth::user()->role == 'Admin')
+                            <th class="px-4 py-2 text-sm md:text-base" style="color: #025E5A;">Action</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
                     @if (isset($users) && count($users) > 0)
                         @foreach ($users as $data)
                             <tr>
-                                <td class="px-4 py-2 border text-sm md:text-base">{{ $data->role }}
+                                <td class="px-4 py-4 border text-sm md:text-base">{{ $data->role }}
                                 </td>
-                                <td class="px-4 py-2 border text-sm md:text-base">{{ $data->email }}</td>
-                                <td class="px-4 py-2 border text-sm md:text-base">-</td>
-                                <td class="px-4 py-2 border text-sm md:text-base">last login</td>
-                                <td class="py-2 border text-sm md:text-base">
-                                    <div class="flex col justify-center">
-                                        <button
-                                            onclick="window.location.href='{{ route('admin.account.update', $data->id) }}'"
-                                            class="mr-4 border-2 bg-yellow-500 px-4 py-2 hover:bg-yellow-700 rounded flex items-center space-x-4 text-white font-bold">
-                                            <img class="mr-2" src="{{ asset('asset/button/edit.png') }}" alt="">
-                                            edit
-                                        </button>
+                                <td class="px-4 py-4 border text-sm md:text-base">{{ $data->email }}</td>
+                                <td class="px-4 py-4 border text-sm md:text-base">-</td>
+                                <td class="px-4 py-4 border text-sm md:text-base">last login</td>
+                                @if (Auth::user()->role == 'Admin')
+                                    <td class="py-6 border text-sm md:text-base">
+                                        <div class="flex col justify-center">
+                                            <button
+                                                onclick="window.location.href='{{ route('admin.account.update', $data->id) }}'"
+                                                class="mr-6 bg-yellow-500 px-4 me-6 py-2 hover:bg-yellow-700 rounded-lg flex items-center space-x-4 text-white font-bold shadow-md shadow-slate-500">
+                                                <img class="mr-2" src="{{ asset('asset/button/edit.png') }}"
+                                                    alt="">
+                                                edit
+                                            </button>
 
+                                            <button
+                                                class=" bg-red-500 px-4 py-2 hover:bg-red-700 rounded-lg flex items-center space-x-4 text-white font-bold shadow-md shadow-slate-500"
+                                                onclick="openModal()">
+                                                <img class="mr-2" src="{{ asset('asset/button/delete.png') }}"
+                                                    alt="">
+                                                Delete
+                                            </button>
+
+                                        </div>
+                                    </td>
+                                @endif
+                            </tr>
+                            <div id="deleteModal" class="modal">
+                                <div class="modal-content">
+                                    <h5 class="font-bold text-xl mb-4">Delete Account</h5>
+                                    <hr class="border-1 border-slate-950 mb-12">
+                                    <p class="mb-10 font-bold">Are you sure want to delete this account ?</p>
+                                    <div class="flex col">
                                         <button
-                                            class="border-2 bg-red-500 px-4 py-2 hover:bg-red-700 rounded flex items-center space-x-4 text-white font-bold"
-                                            onclick="openModal()">
-                                            <img class="mr-2" src="{{ asset('asset/button/delete.png') }}" alt="">
-                                            Delete
+                                            class="mr-8 rounded flex items-center justify-center bg-red-500 px-4 py-2 hover:bg-red-700 text-white "
+                                            type="button"
+                                            onclick="window.location.href='{{ route('admin.account.delete', $data->id) }}'"
+                                            class="confirm-button"><img class="mr-4"
+                                                src="{{ asset('asset/button/delete.png') }}" alt="">Yes,
+                                            delete account</button>
+                                        <button class="rounded flex bg-green-500 px-4 py-2 hover:green-red-700 text-white "
+                                            type="button" class="cancel-button" onclick="closeModal()">No, keep account
                                         </button>
                                     </div>
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                         @endforeach
                 </tbody>
             </table>
@@ -67,21 +96,8 @@
     </div>
 
 
-    <div id="deleteModal" class="modal">
-        <div class="modal-content">
-            <h5 class="font-bold text-xl mb-4">Delete Project</h5>
-            <hr class="border-1 border-slate-950 mb-12">
-            <p class="mb-10 font-bold">Are you sure want to delete this project ?</p>
-            <div class="flex col">
-                <button class="mr-8 rounded flex bg-red-500 px-4 py-2 hover:bg-red-700 text-white " type="button"
-                    onclick="window.location.href='{{ route('admin.account.delete', $data->id) }}'"
-                    class="confirm-button"><img class="mr-4" src="{{ asset('asset/button/delete.png') }}"
-                        alt="">Yes,
-                    delete project</button>
-                <button class="rounded flex bg-green-500 px-4 py-2 hover:green-red-700 text-white " type="button"
-                    class="cancel-button" onclick="closeModal()">No, keep project </button>
-            </div>
-        </div>
+    <div class="flex justify-center mt-4 mb-6">
+        {{ $users->links() }}
     </div>
 @else
     <tr>
