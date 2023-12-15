@@ -1,4 +1,4 @@
-@extends('admin.kelola_akun.edit_akun.layouts')
+@extends('admin.dashboard.layouts')
 
 @section('content')
 

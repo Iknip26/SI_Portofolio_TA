@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('image_profile');
             $table->string('contact');
+            $table->string('major');
             $table->string('specialization');
             $table->timestamps();
             $table->foreign('id_user')->references('id')->on('users');
@@ -30,6 +31,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('dosens');
-        
+
     }
 };

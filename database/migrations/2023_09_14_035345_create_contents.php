@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('tipe_konten', ['jurnal', 'tugas_akhir']);
             $table->String("content_url")->nullable(true);
             $table->String("video_url")->nullable(true);
+            $table->String("video_tittle")->nullable(true);
             $table->String("github_url")->nullable(true);
             $table->text('description');
             $table->string('owner');

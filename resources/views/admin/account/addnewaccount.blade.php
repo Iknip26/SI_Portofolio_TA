@@ -35,8 +35,8 @@
                 <div class="grid gap-6 mb-6 md:grid-cols-2">
                     <div>
                         <label for="Username"
-                            class="block mb-2 text-1xl font-medium text-black dark:text-black font-bold">Username</label>
-                        <input type="text" id="Username" class=" text-sm w-full p-2.5 rounded bg-gray-300"
+                            class="block mb-2 text-1xl text-black dark:text-black font-bold">Username</label>
+                        <input type="text" id="Username" class=" text-sm w-full p-2.5 rounded"
                             name="username" placeholder="Administrator" required>
                         @error('username')
                             <span>{{ $message }}</span>
@@ -44,9 +44,9 @@
                     </div>
                     <div>
                         <label for="firstname"
-                            class="block mb-2 text-1xl font-medium text-black dark:text-black font-bold">First
+                            class="block mb-2 text-1xl text-black dark:text-black font-bold">First
                             Name</label>
-                        <input type="text" id="firstname" class=" text-sm w-full p-2.5 rounded bg-gray-300"
+                        <input type="text" id="firstname" class=" text-sm w-full p-2.5 rounded"
                             name="first_name" placeholder="Henry" required>
                         @error('first_name')
                             <span>{{ $message }}</span>
@@ -54,8 +54,8 @@
                     </div>
                     <div>
                         <label for="email"
-                            class="block mb-2 text-1xl font-medium text-black dark:text-black font-bold">Email</label>
-                        <input type="email" id="Username" class=" text-sm w-full p-2.5 rounded bg-gray-300"
+                            class="block mb-2 text-1xl text-black dark:text-black font-bold">Email</label>
+                        <input type="email" id="Username" class=" text-sm w-full p-2.5 rounded"
                             name="email" placeholder="henrycavill@gmail.com" required>
                         @error('email')
                             <span>{{ $message }}</span>
@@ -63,9 +63,9 @@
                     </div>
                     <div>
                         <label for="lastname"
-                            class="block mb-2 text-1xl font-medium text-black dark:text-black font-bold">Last
+                            class="block mb-2 text-1xl text-black dark:text-black font-bold">Last
                             Name</label>
-                        <input type="text" id="lastname" class=" text-sm w-full p-2.5 rounded bg-gray-300"
+                        <input type="text" id="lastname" class=" text-sm w-full p-2.5 rounded"
                             name="last_name" placeholder="Cavill" required>
                         @error('last_name')
                             <span>{{ $message }}</span>
@@ -73,8 +73,8 @@
                     </div>
                     <div>
                         <label for="password"
-                            class="block mb-2 text-1xl font-medium text-black dark:text-black font-bold">Password</label>
-                        <input type="password" id="password" class=" text-sm w-full p-2.5 rounded bg-gray-300"
+                            class="block mb-2 text-1xl text-black dark:text-black font-bold">Password</label>
+                        <input type="password" id="password" class=" text-sm w-full p-2.5 rounded"
                             name="password" placeholder="********" required>
                         @error('password')
                             <span>{{ $message }}</span>
@@ -82,8 +82,8 @@
                     </div>
                     <div>
                         <label for="Username"
-                            class="block mb-2 text-1xl font-medium text-black dark:text-black font-bold">Role</label>
-                        <select id="role" name="role" class="w-full border rounded p-2 bg-gray-300">
+                            class="block mb-2 text-1xl text-black dark:text-black font-bold">Role</label>
+                        <select id="role" name="role" class="w-full border rounded p-2">
                             <option value="Admin">Admin</option>
                             <option value="Dosen">Dosen</option>
                         </select>
@@ -92,7 +92,7 @@
                     <div>
 
                         <label for="Username"
-                            class="block mb-2 text-1xl font-medium text-black dark:text-black font-bold">Confirm
+                            class="block mb-2 text-1xl text-black dark:text-black font-bold">Confirm
                             Password</label>
                         <input type="password" name="confirm_password" id="confirm_password"
                             class=" text-sm w-full p-2.5 rounded bg-gray-300" placeholder="********" required>

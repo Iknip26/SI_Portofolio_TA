@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="styles.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;700&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <title>Login</title>
+        <style>
+            body{
+                font-family: 'Poppins', sans-serif;
+            }
+
+            .CONTAINER_BACKGROUND{
+                position: absolute;
+                z-index: 1;
+            }
+
+            .CONTAINER_CONTENT_ALL{
+                position: absolute;
+                width: 100%;
+                z-index: 3;
+            }
+
+            .wave_1{
+                position: absolute;
+                z-index: 2;
+            }
+
+            .wave_2{
+                position: absolute;
+                z-index: 2;
+            }
+
+            .custom-shape-divider-top-1701515711 svg {
+                position: relative;
+                display: block;
+                width: calc(100% + 1.3px);
+                height: 90px;
+            }
+
+            .custom-shape-divider-top-1701515711 .shape-fill {
+                fill: #065f46;
+            }
+        </style>
+
+    <body>
+        <div class="CONTAINER_BACKGROUND">
+                <!-- <div class="custom-shape-divider-top-1701515711">
+                    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+                    </svg>
+                </div> -->
+                <svg class="wave_1" xmlns="http://www.w3.org/2000/svg" width="750" height="534" viewBox="0 0 789 562" fill="none">
+                    <g filter="url(#filter0_d_1051_3512)">
+                    <path d="M0 0.307474H776.943C776.943 0.307474 782.001 -10.7374 696.828 99.567C611.654 209.872 512.882 156.089 410.382 225.543C310.121 293.48 285.706 391.736 186.802 462.427C91.497 530.544 0 550 0 550V0.307474Z" fill="#2D918C" fill-opacity="0.67" shape-rendering="crispEdges"/>
+                    </g>
+                    <defs>
+                    <filter id="filter0_d_1051_3512" x="-4" y="-4" width="793" height="566" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                    <feOffset dx="4" dy="4"/>
+                    <feGaussianBlur stdDeviation="4"/>
+                    <feComposite in2="hardAlpha" operator="out"/>
+                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.47 0"/>
+                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1051_3512"/>
+                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1051_3512" result="shape"/>
+                    </filter>
+                    </defs>
+                    </svg>
+
+                <svg class="wave_2" xmlns="http://www.w3.org/2000/svg" width="670" height="500" viewBox="0 0 676 518" fill="none">
+                    <g filter="url(#filter0_d_1051_3513)">
+                    <path d="M-9.61029 0H662C662 0 635.71 81.996 553.918 170.785C472.127 259.573 377.276 216.282 278.846 272.188C182.566 326.873 159.121 405.964 64.1433 462.865C-27.3773 517.696 -9.61029 501.885 -9.61029 501.885V0Z" fill="#025E5A" fill-opacity="0.89" shape-rendering="crispEdges"/>
+                    </g>
+                    <defs>
+                    <filter id="filter0_d_1051_3513" x="-17" y="-6" width="693" height="524" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                    <feOffset dx="4" dy="4"/>
+                    <feGaussianBlur stdDeviation="5"/>
+                    <feComposite in2="hardAlpha" operator="out"/>
+                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.37 0"/>
+                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1051_3513"/>
+                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1051_3513" result="shape"/>
+                    </filter>
+                    </defs>
+                </svg>
+        </div>
+
+        <div class="CONTAINER_CONTENT_ALL">
+            <!-- NAVBARR -->
+            <navbar id="header" class="grid grid-cols-2 py-8 w-full">
+                <div id="header_kiri" class="flex items-center justify-items-start ms-8">
+                    <img class="w-32 h-auto" src="ugm.png" alt="">
+                    <div class="flex flex-col ms-6">
+                        <p class="text-white text-lg">Sarjana Terapan</p>
+                        <p class="text-white text-lg">Teknologi Rekayasa Perangkat Lunak</p>
+                        <p class="text-white text-lg">Universitas Gadjah Mada</p>
+                    </div>
+                </div>
+
+                <div id="header_kanan" class="flex justify-end items-center me-20 ">
+
+
+                    <button type="button"
+                        onclick="window.location.href='dashboard/dashboard.html'"
+                        class="me-10 h-12 px-12 py-4 rounded flex items-center space-x-4 font-bold bg-white hover:bg-teal-800 shadow-none hover:drop-shadow-lg text-teal-800 text-xl hover:text-white transition-all duration-200">
+                        Home
+                    </button>
+
+                        <button type="button"
+                        onclick="window.location.href='portofolio_page.html'"
+                        class="me-10 h-12 px-12 py-4 rounded flex items-center space-x-4 font-bold bg-white hover:bg-teal-800 text-teal-800 text-xl hover:text-white transition-all">
+                        Showcase
+                    </button>
+
+                        <button type="button"
+                        onclick="window.location.href=''"
+                        class="me-16 h-12 px-12 rounded flex items-center space-x-4 font-bold bg-white hover:bg-teal-800 text-teal-800 text-xl hover:text-white transition-all">
+                        Login
+                    </button>
+
+                    <img class="w-20 h-auto" src="Ellipse 66.png" alt="">
+                </div>
+
+            </navbar>
+
+            <main class="w-full flex flex-col items-center mt-32 px-32">
+
+                <div id="searc_container" class="flex flex-col items-center">
+                    <p class="text-4xl text-teal-800 font-bold mb-2">Topik Tugas Akhir</p>
+                    <p class="text-4xl text-teal-800 font-bold mb-10">Teknologi Rekayasa Perangkat Lunak</p>
+
+                    <div id="search_bar" class="flex items-center">
+                        <div class="bg-teal-500 rounded-full w-20 h-20 z-10 flex justify-center items-center shadow-lg shadow-slate-700">
+                            <button>
+                                <img class="w-10 h-auto" src="search.png" alt="">
+                            </button>
+                        </div>
+                        <input type="text" placeholder="Cari portofolio Tugas Akhir di sini..." class="z-0 h-16 ms-[-30px] ps-16 text-lg bg-teal-800 rounded-xl text-white font-bold shadow-lg shadow-slate-700" style="width: 600px;">
+                    </div>
+                </div>
+
+                <p class="text-lg text-teal-800 font-bold mt-16 self-start ms-32">Cari Berdasarkan Topik</p>
+
+                <div class="mt-[-100px] mx-auto py-8" style="max-width: 1308px;">
+                    <div class="relative">
+
+                        <!-- Carousel Container -->
+                      <div class="overflow-hidden w-full rounded-lg">
+                        <!-- Slides Container -->
+                        <div id="slides" class="flex transition-transform ease-in-out duration-300 transform translate-x-0">
+                          <!-- Slide 1 -->
+                          <div id="container_tag" class="flex mt-48 space-x-16 w-100 h-80 me-8">
+
+                            <div id="item_tag" class="flex">
+                                <div class="relative w-96 h-36 bg-teal-800 rounded-xl shadow-lg shadow-slate-700">
+                                    <p class="text-white text-xl mt-14 ms-20 font-bold">Artificial
+                                        Intelligence</p>
+                                    <div class="absolute w-36 h-36 bg-teal-500 rounded-full shadow-md shadow-slate-800 end-[-20px] top-[-80px]">
+                                        <div class="w-full h-full flex flex-col justify-center items-center drop-shadow-xl">
+                                            <img class="w-20 h-20" src="icon_white/ai.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="item_tag" class="flex">
+                                <div class="relative w-96 h-36 bg-teal-800 rounded-xl shadow-lg shadow-slate-700">
+                                    <p class="text-white text-xl mt-14 ms-20 font-bold">Software Engineering</p>
+                                    <div class="absolute w-36 h-36 bg-teal-500 rounded-full shadow-md shadow-slate-800 end-[-20px] top-[-80px]">
+                                        <div class="w-full h-full flex flex-col justify-center items-center">
+                                            <img class="w-20 h-20" src="icon_white/softw.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="item_tag" class="flex">
+                                <div class="relative w-96 h-36 bg-teal-800 rounded-xl shadow-lg shadow-slate-700">
+                                    <p class="text-white text-xl mt-14 ms-20 font-bold">Intelligent Gaming</p>
+                                    <div class="absolute w-36 h-36 bg-teal-500 rounded-full shadow-md shadow-slate-800 end-[-20px] top-[-80px]">
+                                        <div class="w-full h-full flex flex-col justify-center items-center">
+                                            <img class="w-20 h-20" src="icon_white/gaming.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                          <!-- Slide 2 -->
+                          <div id="content" class="w-full flex-shrink-0">
+                            <div id="container_tag" class="flex mt-48 space-x-16 w-100 h-80">
+
+                                <div id="item_tag" class="flex">
+                                    <div class="relative w-96 h-36 bg-teal-800 rounded-xl shadow-lg shadow-slate-700">
+                                        <p class="text-white text-xl mt-14 ms-20 font-bold">Data Science</p>
+                                        <div class="absolute w-36 h-36 bg-teal-500  rounded-full shadow-md shadow-slate-800 end-[-20px] top-[-80px]">
+                                            <div class="w-full h-full flex flex-col justify-center items-center drop-shadow-xl">
+                                                <img class="w-20 h-20" src="icon_white/data sc.png" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="item_tag" class="flex">
+                                    <div class="relative w-96 h-36 bg-teal-800 rounded-xl shadow-lg shadow-slate-700">
+                                        <p class="text-white text-xl mt-14 ms-12 font-bold">System Security and Cybersecurity</p>
+                                        <div class="absolute w-36 h-36 bg-teal-500 rounded-full shadow-md shadow-slate-800 end-[-20px] top-[-80px]">
+                                            <div class="w-full h-full flex flex-col justify-center items-center">
+                                                <img class="w-20 h-20" src="icon_white/cyber.png" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="item_tag" class="flex">
+                                    <div class="relative w-96 h-36 bg-teal-800 rounded-xl shadow-lg shadow-slate-700 pe-20 ">
+                                        <p class="text-white text-xl mt-14 ms-12 font-bold">Mobile and Responsive App
+                                            Development</p>
+                                        <div class="absolute w-36 h-36 bg-teal-500 rounded-full shadow-md shadow-slate-800 end-[-20px] top-[-80px]">
+                                            <div class="w-full h-full flex flex-col justify-center items-center">
+                                                <img class="w-20 h-20" src="icon_white/mobile.png" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                          <!-- Slide 3 -->
+                          <div id="content" class="w-full flex-shrink-0">
+                            <div id="container_tag" class="flex mt-48 space-x-16 w-100 h-80">
+
+                                <div id="item_tag" class="flex">
+                                    <div class="relative w-96 h-36 bg-teal-800 rounded-xl shadow-lg shadow-slate-700 pe-20 ">
+                                        <p class="text-white text-xl mt-14 ms-12 font-bold">Blockchain Technology and
+                                            Digital
+                                            Finance</p>
+                                        <div class="absolute w-36 h-36 bg-teal-500 rounded-full shadow-md shadow-slate-800 end-[-20px] top-[-80px]">
+                                            <div class="w-full h-full flex flex-col justify-center items-center drop-shadow-xl">
+                                                <img class="w-20 h-20" src="icon_white/blockch.png" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="item_tag" class="flex">
+                                    <div class="relative w-96 h-36 bg-teal-800 rounded-xl shadow-lg shadow-slate-700">
+                                        <p class="text-white text-xl mt-14 ms-20 font-bold">IoT</p>
+                                        <div class="absolute w-36 h-36 bg-teal-500 rounded-full shadow-md shadow-slate-800 end-[-20px] top-[-80px]">
+                                            <div class="w-full h-full flex flex-col justify-center items-center">
+                                                <img class="w-20 h-20" src="icon_white/iot.png" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- <div id="item_tag" class="flex">
+                                    <div class="relative w-96 h-36 bg-teal-800 rounded-xl shadow-lg shadow-slate-700">
+                                        <p class="text-white text-xl mt-14 ms-20 font-bold">Data Science</p>
+                                        <div class="absolute w-36 h-36 bg-teal-500 rounded-full shadow-md shadow-slate-800 end-[-20px] top-[-80px]">
+                                            <div class="w-full h-full flex flex-col justify-center items-center">
+                                                <img class="w-20 h-20" src="icon_white/data sc.png" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                 -->
+                            </div>
+                        </div>
+                        </div>
+                      </div>
+
+                      <!-- Navigation Arrows -->
+                      <button class="w-16 h-16 absolute top-1/2 left-0 ms-[-13px] mt-[-40px] transform -translate-y-1/2 -translate-x-4 text-teal-800 text-xl font-bold bg-white rounded-full shadow-md shadow-slate-800 border-2 border-slate-300" onclick="prevSlide()">
+                        &lt;
+                      </button>
+                      <button class="w-16 h-16 absolute top-1/2 right-0 me-[-18px] mt-[-40px] transform -translate-y-1/2 translate-x-4 text-teal-800 text-xl font-bold bg-white rounded-full shadow-md shadow-slate-800 border-2 border-slate-300" onclick="nextSlide()">
+                        &gt;
+
+                    </button>
+                    </div>
+                </div>
+
+
+            <div class="flex w-full justify-start items-center mb-20 mt-[-60px]">
+                <p class="text-lg text-teal-500 font-bold me-12 ms-32">Urutkan Berdasarkan</p>
+
+                <div>
+                    <select id="role" name="role" aria-placeholder="Pilih Urutan" class="w-full rounded p-2 pe-20 text-teal-800 font-bold bg-white border-teal-800 border-4">
+                        <option class="text-teal-800 font-bold p-4 px-6" value="Admin">Pilih Urutan</option>
+                        <option class="text-teal-800 font-bold p-4 px-6" value="Admin">Tanggal Upload</option>
+                        <option class="text-teal-800 font-bold p-4 px-6" value="Dosen">Like</option>
+                        <option class="text-teal-800 font-bold p-4 px-6" value="Dosen">Like</option>
+                    </select>
+                </div>
+
+            </div>
+
+
+
+
+            <!-- GRID CONTENT -->
+
+            <div id="GRID_CONTENT" class="grid grid-cols-3 justify-center">
+
+
+
+
+                <button onclick="window.location.href='TA.html'">
+                <div id="item_content" class="flex flex-col w-auto h-auto mb-20 me-14">
+
+                    <div class="flex flex-col bg-teal-800 rounded-xl px-6" style="width: 450px; height:800px;">
+                           <!-- THUMBNAIL KONTEN -->
+                        <img class="pt-6 rounded-xl" src="Rectangle 282.png" alt="">
+
+                        <!-- DESKRIPSI KONTEN -->
+
+                        <p class="text-2xl text-white font-bold mt-6 mb-[-15px]">Judul Konten</p>
+                        <div class="overflow-y-clip h-40 mt-2">
+                            <p class="text-lg text-white mt-6">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores id voluptate sint, accusantium ut unde placeat voluptates dicta error dolore blanditiis ad. Dignissimos sequi eum nostrum voluptas perferendis ab neque?</p>
+                        </div>
+                        <p class="text-lg text-white mt-6 font-bold">Creator : Andromedha Cynosura</p>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6">
+                            <p class="text-teal-800 text-md font-bold">Software Engineering</p>
+                        </div>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6">
+                            <p class="text-teal-800 text-md font-bold">Artificial Intelligent</p>
+                        </div>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6 shadow-md shadow-slate-800">
+                            <p class="text-teal-800 text-md font-bold">Cyber Security</p>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-[-15px] h-20 bg-white rounded-xl border-2 border-teal-800 flex flex-row items-center px-6" style="width: 450px;">
+                        <img class="w-9" src="Love.png" alt="">
+                        <p id="like" class="ms-4 text-xl text-teal-800 font-bold" name="like"> 2.4 K</p>
+                        <div class="flex flex-row ms-52">
+                            <img class="w-9 me-4" src="Bookmark.png" alt="">
+                            <img class="w-8" src="share.png" alt="">
+                        </div>
+
+                    </div>
+
+                </div>
+                </button>
+
+
+                <button onclick="window.location.href='TA.html'">
+                <div id="item_content" class="flex flex-col w-auto h-auto mb-20 me-14">
+
+                    <div class="flex flex-col bg-teal-800 rounded-xl px-6" style="width: 450px; height:800px;">
+                           <!-- THUMBNAIL KONTEN -->
+                        <img class="pt-6 rounded-xl" src="Rectangle 282.png" alt="">
+
+                        <!-- DESKRIPSI KONTEN -->
+
+                        <p class="text-2xl text-white font-bold mt-6 mb-[-15px]">Judul Konten</p>
+                        <div class="overflow-y-clip h-40 mt-2">
+                            <p class="text-lg text-white mt-6">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores id voluptate sint, accusantium ut unde placeat voluptates dicta error dolore blanditiis ad. Dignissimos sequi eum nostrum voluptas perferendis ab neque?</p>
+                        </div>
+                        <p class="text-lg text-white mt-6 font-bold">Creator : Andromedha Cynosura</p>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6">
+                            <p class="text-teal-800 text-md font-bold">Software Engineering</p>
+                        </div>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6">
+                            <p class="text-teal-800 text-md font-bold">Artificial Intelligent</p>
+                        </div>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6 shadow-md shadow-slate-800">
+                            <p class="text-teal-800 text-md font-bold">Cyber Security</p>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-[-15px] h-20 bg-white rounded-xl border-2 border-teal-800 flex flex-row items-center px-6" style="width: 450px;">
+                        <img class="w-9" src="Love.png" alt="">
+                        <p id="like" class="ms-4 text-xl text-teal-800 font-bold" name="like"> 2.4 K</p>
+                        <div class="flex flex-row ms-52">
+                            <img class="w-9 me-4" src="Bookmark.png" alt="">
+                            <img class="w-8" src="share.png" alt="">
+                        </div>
+
+                    </div>
+
+                </div>
+                </button>
+
+
+                <button onclick="window.location.href='TA.html'">
+                <div id="item_content" class="flex flex-col w-auto h-auto mb-20 me-14">
+
+                    <div class="flex flex-col bg-teal-800 rounded-xl px-6" style="width: 450px; height:800px;">
+                           <!-- THUMBNAIL KONTEN -->
+                        <img class="pt-6 rounded-xl" src="Rectangle 282.png" alt="">
+
+                        <!-- DESKRIPSI KONTEN -->
+
+                        <p class="text-2xl text-white font-bold mt-6 mb-[-15px]">Judul Konten</p>
+                        <div class="overflow-y-clip h-40 mt-2">
+                            <p class="text-lg text-white mt-6">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores id voluptate sint, accusantium ut unde placeat voluptates dicta error dolore blanditiis ad. Dignissimos sequi eum nostrum voluptas perferendis ab neque?</p>
+                        </div>
+                        <p class="text-lg text-white mt-6 font-bold">Creator : Andromedha Cynosura</p>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6">
+                            <p class="text-teal-800 text-md font-bold">Software Engineering</p>
+                        </div>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6">
+                            <p class="text-teal-800 text-md font-bold">Artificial Intelligent</p>
+                        </div>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6 shadow-md shadow-slate-800">
+                            <p class="text-teal-800 text-md font-bold">Cyber Security</p>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-[-15px] h-20 bg-white rounded-xl border-2 border-teal-800 flex flex-row items-center px-6" style="width: 450px;">
+                        <img class="w-9" src="Love.png" alt="">
+                        <p id="like" class="ms-4 text-xl text-teal-800 font-bold" name="like"> 2.4 K</p>
+                        <div class="flex flex-row ms-52">
+                            <img class="w-9 me-4" src="Bookmark.png" alt="">
+                            <img class="w-8" src="share.png" alt="">
+                        </div>
+
+                    </div>
+
+                </div>
+                </button>
+
+
+                <button onclick="window.location.href='TA.html'">
+                <div id="item_content" class="flex flex-col w-auto h-auto mb-20 me-14">
+
+                    <div class="flex flex-col bg-teal-800 rounded-xl px-6" style="width: 450px; height:800px;">
+                           <!-- THUMBNAIL KONTEN -->
+                        <img class="pt-6 rounded-xl" src="Rectangle 282.png" alt="">
+
+                        <!-- DESKRIPSI KONTEN -->
+
+                        <p class="text-2xl text-white font-bold mt-6 mb-[-15px]">Judul Konten</p>
+                        <div class="overflow-y-clip h-40 mt-2">
+                            <p class="text-lg text-white mt-6">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores id voluptate sint, accusantium ut unde placeat voluptates dicta error dolore blanditiis ad. Dignissimos sequi eum nostrum voluptas perferendis ab neque?</p>
+                        </div>
+                        <p class="text-lg text-white mt-6 font-bold">Creator : Andromedha Cynosura</p>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6">
+                            <p class="text-teal-800 text-md font-bold">Software Engineering</p>
+                        </div>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6">
+                            <p class="text-teal-800 text-md font-bold">Artificial Intelligent</p>
+                        </div>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6 shadow-md shadow-slate-800">
+                            <p class="text-teal-800 text-md font-bold">Cyber Security</p>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-[-15px] h-20 bg-white rounded-xl border-2 border-teal-800 flex flex-row items-center px-6" style="width: 450px;">
+                        <img class="w-9" src="Love.png" alt="">
+                        <p id="like" class="ms-4 text-xl text-teal-800 font-bold" name="like"> 2.4 K</p>
+                        <div class="flex flex-row ms-52">
+                            <img class="w-9 me-4" src="Bookmark.png" alt="">
+                            <img class="w-8" src="share.png" alt="">
+                        </div>
+
+                    </div>
+
+                </div>
+                </button>
+
+
+                <button onclick="window.location.href='TA.html'">
+                <div id="item_content" class="flex flex-col w-auto h-auto mb-20 me-14">
+
+                    <div class="flex flex-col bg-teal-800 rounded-xl px-6" style="width: 450px; height:800px;">
+                           <!-- THUMBNAIL KONTEN -->
+                        <img class="pt-6 rounded-xl" src="Rectangle 282.png" alt="">
+
+                        <!-- DESKRIPSI KONTEN -->
+
+                        <p class="text-2xl text-white font-bold mt-6 mb-[-15px]">Judul Konten</p>
+                        <div class="overflow-y-clip h-40 mt-2">
+                            <p class="text-lg text-white mt-6">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores id voluptate sint, accusantium ut unde placeat voluptates dicta error dolore blanditiis ad. Dignissimos sequi eum nostrum voluptas perferendis ab neque?</p>
+                        </div>
+                        <p class="text-lg text-white mt-6 font-bold">Creator : Andromedha Cynosura</p>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6">
+                            <p class="text-teal-800 text-md font-bold">Software Engineering</p>
+                        </div>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6">
+                            <p class="text-teal-800 text-md font-bold">Artificial Intelligent</p>
+                        </div>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6 shadow-md shadow-slate-800">
+                            <p class="text-teal-800 text-md font-bold">Cyber Security</p>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-[-15px] h-20 bg-white rounded-xl border-2 border-teal-800 flex flex-row items-center px-6" style="width: 450px;">
+                        <img class="w-9" src="Love.png" alt="">
+                        <p id="like" class="ms-4 text-xl text-teal-800 font-bold" name="like"> 2.4 K</p>
+                        <div class="flex flex-row ms-52">
+                            <img class="w-9 me-4" src="Bookmark.png" alt="">
+                            <img class="w-8" src="share.png" alt="">
+                        </div>
+
+                    </div>
+
+                </div>
+                </button>
+
+
+
+                <button onclick="window.location.href='TA.html'">
+                <div id="item_content" class="flex flex-col w-auto h-auto mb-20 me-14">
+
+                    <div class="flex flex-col bg-teal-800 rounded-xl px-6" style="width: 450px; height:800px;">
+                           <!-- THUMBNAIL KONTEN -->
+                        <img class="pt-6 rounded-xl" src="Rectangle 282.png" alt="">
+
+                        <!-- DESKRIPSI KONTEN -->
+
+                        <p class="text-2xl text-white font-bold mt-6 mb-[-15px]">Judul Konten</p>
+                        <div class="overflow-y-clip h-40 mt-2">
+                            <p class="text-lg text-white mt-6">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores id voluptate sint, accusantium ut unde placeat voluptates dicta error dolore blanditiis ad. Dignissimos sequi eum nostrum voluptas perferendis ab neque?</p>
+                        </div>
+                        <p class="text-lg text-white mt-6 font-bold">Creator : Andromedha Cynosura</p>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6">
+                            <p class="text-teal-800 text-md font-bold">Software Engineering</p>
+                        </div>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6">
+                            <p class="text-teal-800 text-md font-bold">Artificial Intelligent</p>
+                        </div>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6 shadow-md shadow-slate-800">
+                            <p class="text-teal-800 text-md font-bold">Cyber Security</p>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-[-15px] h-20 bg-white rounded-xl border-2 border-teal-800 flex flex-row items-center px-6" style="width: 450px;">
+                        <img class="w-9" src="Love.png" alt="">
+                        <p id="like" class="ms-4 text-xl text-teal-800 font-bold" name="like"> 2.4 K</p>
+                        <div class="flex flex-row ms-52">
+                            <img class="w-9 me-4" src="Bookmark.png" alt="">
+                            <img class="w-8" src="share.png" alt="">
+                        </div>
+
+                    </div>
+
+                </div>
+                </button>
+
+
+
+                <button onclick="window.location.href='TA.html'">
+                <div id="item_content" class="flex flex-col w-auto h-auto mb-20 me-14">
+
+                    <div class="flex flex-col bg-teal-800 rounded-xl px-6" style="width: 450px; height:800px;">
+                           <!-- THUMBNAIL KONTEN -->
+                        <img class="pt-6 rounded-xl" src="Rectangle 282.png" alt="">
+
+                        <!-- DESKRIPSI KONTEN -->
+
+                        <p class="text-2xl text-white font-bold mt-6 mb-[-15px]">Judul Konten</p>
+                        <div class="overflow-y-clip h-40 mt-2">
+                            <p class="text-lg text-white mt-6">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores id voluptate sint, accusantium ut unde placeat voluptates dicta error dolore blanditiis ad. Dignissimos sequi eum nostrum voluptas perferendis ab neque?</p>
+                        </div>
+                        <p class="text-lg text-white mt-6 font-bold">Creator : Andromedha Cynosura</p>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6">
+                            <p class="text-teal-800 text-md font-bold">Software Engineering</p>
+                        </div>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6">
+                            <p class="text-teal-800 text-md font-bold">Artificial Intelligent</p>
+                        </div>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6 shadow-md shadow-slate-800">
+                            <p class="text-teal-800 text-md font-bold">Cyber Security</p>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-[-15px] h-20 bg-white rounded-xl border-2 border-teal-800 flex flex-row items-center px-6" style="width: 450px;">
+                        <img class="w-9" src="Love.png" alt="">
+                        <p id="like" class="ms-4 text-xl text-teal-800 font-bold" name="like"> 2.4 K</p>
+                        <div class="flex flex-row ms-52">
+                            <img class="w-9 me-4" src="Bookmark.png" alt="">
+                            <img class="w-8" src="share.png" alt="">
+                        </div>
+
+                    </div>
+
+                </div>
+                </button>
+
+                <div id="item_content" class="flex flex-col w-auto h-auto mb-20 me-14">
+
+                    <div class="flex flex-col bg-teal-800 rounded-xl px-6" style="width: 450px; height:800px;">
+                           <!-- THUMBNAIL KONTEN -->
+                        <img class="pt-6 rounded-xl" src="Rectangle 282.png" alt="">
+
+                        <!-- DESKRIPSI KONTEN -->
+
+                        <p class="text-2xl text-white font-bold mt-6 mb-[-15px]">Judul Konten</p>
+                        <div class="overflow-y-clip h-40 mt-2">
+                            <p class="text-lg text-white mt-6">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores id voluptate sint, accusantium ut unde placeat voluptates dicta error dolore blanditiis ad. Dignissimos sequi eum nostrum voluptas perferendis ab neque?</p>
+                        </div>
+                        <p class="text-lg text-white mt-6 font-bold">Creator : Andromedha Cynosura</p>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6">
+                            <p class="text-teal-800 text-md font-bold">Software Engineering</p>
+                        </div>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6">
+                            <p class="text-teal-800 text-md font-bold">Artificial Intelligent</p>
+                        </div>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6 shadow-md shadow-slate-800">
+                            <p class="text-teal-800 text-md font-bold">Cyber Security</p>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-[-15px] h-20 bg-white rounded-xl border-2 border-teal-800 flex flex-row items-center px-6" style="width: 450px;">
+                        <img class="w-9" src="Love.png" alt="">
+                        <p id="like" class="ms-4 text-xl text-teal-800 font-bold" name="like"> 2.4 K</p>
+                        <div class="flex flex-row ms-52">
+                            <img class="w-9 me-4" src="Bookmark.png" alt="">
+                            <img class="w-8" src="share.png" alt="">
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div id="item_content" class="flex flex-col w-auto h-auto mb-20 me-14">
+
+                    <div class="flex flex-col bg-teal-800 rounded-xl px-6" style="width: 450px; height:800px;">
+                           <!-- THUMBNAIL KONTEN -->
+                        <img class="pt-6 rounded-xl" src="Rectangle 282.png" alt="">
+
+                        <!-- DESKRIPSI KONTEN -->
+
+                        <p class="text-2xl text-white font-bold mt-6 mb-[-15px]">Judul Konten</p>
+                        <div class="overflow-y-clip h-40 mt-2">
+                            <p class="text-lg text-white mt-6">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Asperiores id voluptate sint, accusantium ut unde placeat voluptates dicta error dolore blanditiis ad. Dignissimos sequi eum nostrum voluptas perferendis ab neque?</p>
+                        </div>
+                        <p class="text-lg text-white mt-6 font-bold">Creator : Andromedha Cynosura</p>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6">
+                            <p class="text-teal-800 text-md font-bold">Software Engineering</p>
+                        </div>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6">
+                            <p class="text-teal-800 text-md font-bold">Artificial Intelligent</p>
+                        </div>
+
+                        <div class="bg-white w-fit h-auto p-3 rounded-t-xl mt-6 shadow-md shadow-slate-800">
+                            <p class="text-teal-800 text-md font-bold">Cyber Security</p>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-[-15px] h-20 bg-white rounded-xl border-2 border-teal-800 flex flex-row items-center px-6" style="width: 450px;">
+                        <img class="w-9" src="Love.png" alt="">
+                        <p id="like" class="ms-4 text-xl text-teal-800 font-bold" name="like"> 2.4 K</p>
+                        <div class="flex flex-row ms-52">
+                            <img class="w-9 me-4" src="Bookmark.png" alt="">
+                            <img class="w-8" src="share.png" alt="">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- PAGINATION -->
+
+            <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 mb-20">
+                <div class="flex flex-1 justify-between sm:hidden">
+                  <a href="#" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
+                  <a href="#" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>
+                </div>
+                <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                  <!-- <div>
+                    <p class="text-sm text-gray-700">
+                      Showing
+                      <span class="font-medium">1</span>
+                      to
+                      <span class="font-medium">10</span>
+                      of
+                      <span class="font-medium">97</span>
+                      results
+                    </p>
+                  </div> -->
+                  <div>
+                    <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                      <a href="#" class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                        <span class="sr-only">Previous</span>
+                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+                        </svg>
+                      </a>
+                      <!-- Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" -->
+                      <a href="#" aria-current="page" class="relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">1</a>
+                      <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">2</a>
+                      <a href="#" class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex">3</a>
+                      <span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">...</span>
+                      <a href="#" class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex">8</a>
+                      <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">9</a>
+                      <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">10</a>
+                      <a href="#" class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
+                        <span class="sr-only">Next</span>
+                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                        </svg>
+                      </a>
+                    </nav>
+                  </div>
+                </div>
+              </div>
+
+
+            </main>
+
+            <footer class="w-full bg-teal-800 h-auto grid grid-cols-3 py-16 pb-16">
+                <div id="footer_kiri" class="flex flex-col ms-16 ">
+                    <img class="w-40 h-auto" src="ugm.png" alt="">
+                    <p class="text-white text-lg mt-6">Universitas Gadjah Mada</p>
+                    <p class="text-white text-lg mt-1">Sekolah Vokasi</p>
+                    <p class="text-white text-lg mt-1">Gedung TILC, Belimbingsari, Caturtunggal</p>
+                    <p class="text-white text-lg mt-1 mb-6">Depok, Sleman, Yogyakarta, Indonesia, 55281</p>
+                    <div class="flex flex-row items-center">
+                        <img class="w-6 h-auto" src="email.png" alt="">
+                        <a href="" class="text-white text-lg ms-4">sv@ugm.ac.id</a>
+                    </div>
+                    <div class="flex flex-row items-center mt-3">
+                        <img class="w-5 h-auto" src="telephone.png" alt="">
+                        <p class="text-white text-lg ms-4">+62 (274) 541020</p>
+                    </div>
+                </div>
+
+                <div id="footer_kanan" class="flex justify-center col-span-2 space-x-16">
+                    <div class="flex flex-col">
+                        <p class="text-white text-2xl font-bold mb-4">PRANALA PENTING</p>
+                        <p class="text-white text-lg mt-6">Pendaftaran Mahasiswa Baru</p>
+                        <p class="text-white text-lg mt-5">Informasi Beasiswa</p>
+                        <p class="text-white text-lg mt-5">Carrer Center ( VDC )</p>
+                        <p class="text-white text-lg mt-5">Buku Elektronik</p>
+                        <p class="text-white text-lg mt-5">Unduhan</p>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p class="text-white text-2xl font-bold mb-4">SOCIAL MEDIA</p>
+                        <p class="text-white text-lg mt-6">Facebook</p>
+                        <p class="text-white text-lg mt-5">Twitter</p>
+                        <p class="text-white text-lg mt-5">Instagram</p>
+                        <p class="text-white text-lg mt-5">Youtube</p>
+                        <p class="text-white text-lg mt-5">RSS Feed</p>
+                        <p class="text-white text-lg mt-5">Aplikasi Vokasi UGM</p>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p class="text-white text-2xl font-bold mb-4">INFORMASI PUBLIK</p>
+                        <p class="text-white text-lg mt-6">Daftar Informasi Tersedia Setiap Saat</p>
+                        <p class="text-white text-lg mt-5">Daftar Informasi Wajib Berkala</p>
+                        <p class="text-white text-lg mt-5">Permohonan Informasi</p>
+                    </div>
+                </div>
+            </footer>
+
+
+            <div class="flex justify-center font-bold text-teal-800 py-6"> Copyright © 2017 Sekolah Vokasi Universitas Gadjah Mada </div>
+
+
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+        </script>
+        <script src="https://unpkg.com/@popperjs/core@2"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+
+            let currentSlide = 0;
+
+            function showSlide(index) {
+              const slides = document.querySelector('#slides');
+              const slideWidth = document.querySelector('#content').offsetWidth;
+              slides.style.transform = `translateX(-${index * slideWidth}px)`;
+              currentSlide = index;
+            }
+
+            function prevSlide() {
+                console.log(currentSlide);
+              currentSlide = (currentSlide - 1 + 3) % 3;
+              showSlide(currentSlide);
+            }
+
+            function nextSlide() {
+                console.log(currentSlide);
+              currentSlide = (currentSlide + 1) % 3;
+              showSlide(currentSlide);
+            }
+
+            // let currentSlide = 0;
+
+            // function showSlide(index) {
+            // const slides = document.querySelector('#slides');
+            // const slideWidth = document.querySelector('#content').offsetWidth;
+            // slides.style.transform = `translateX(-${index * slideWidth}px)`;
+            // currentSlide = index;
+            // }
+
+            // function prevSlide() {
+            // currentSlide = Math.max(currentSlide - 1, 0);
+            // showSlide(currentSlide);
+            // }
+
+            // function nextSlide() {
+            // const totalSlides = document.querySelectorAll('#content').length;
+            // currentSlide = Math.min(currentSlide + 1, totalSlides - 1);
+            // showSlide(currentSlide);
+            // }
+
+          </script>
+    </body>
+</html>

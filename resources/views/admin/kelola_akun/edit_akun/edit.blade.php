@@ -1,4 +1,4 @@
-@extends('admin.kelola_akun.edit_akun.layouts')
+@extends('admin.dashboard.layouts')
 
 @section('content')
 
@@ -54,15 +54,15 @@
                             @endif
                         </div>
                     </div>
-                    
+
                     <div class="mb-3 row">
                         <input type="submit" class="col-md-3 offset-md-5 btn btn-primary" value="Update">
                     </div>
-                    
+
                 </form>
             </div>
         </div>
-    </div>    
+    </div>
 </div>
-    
+
 @endsection

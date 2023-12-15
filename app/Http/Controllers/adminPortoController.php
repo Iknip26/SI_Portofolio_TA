@@ -8,12 +8,15 @@ use App\Models\contents;
 use App\Models\dosens;
 use App\Models\owners;
 use App\Models\tags;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Facades\Image;
+use PhpParser\Node\Expr\Cast\String_;
 
 class adminPortoController extends Controller
 {
@@ -228,33 +231,68 @@ class adminPortoController extends Controller
 
     public function showAllPorto(){
 
-        $contents =   DB::table('contents')
-        ->join('dosens', 'contents.id_dosen', '=', 'dosens.id')
-        ->select('contents.*', 'dosens.name')
-        ->distinct()
-        ->get();
+        $userdata = Auth::user();
+        
+        if($userdata->role == "Admin"){
+            $contents =   DB::table('contents')
+            ->join('dosens', 'contents.id_dosen', '=', 'dosens.id')
+            ->select('contents.*', 'dosens.name')
+            ->distinct()->paginate(7);
 
-        // $arraySpecialities = [];
-        $arrayCategories = [];
-        $arrayStudents = [];
+            // $arraySpecialities = [];
+            $arrayCategories = [];
+            $arrayStudents = [];
 
-        foreach($contents as $content){
-            $tmp = [];
-                $owners = owners::where('id_content', $content->id)->get();
-                foreach($owners as $owner){
-                    array_push($tmp, $owner->owner_name);
-                }
-                array_push($arrayStudents, $tmp);
+            foreach($contents as $content){
+                $tmp = [];
+                    $owners = owners::where('id_content', $content->id)->get();
+                    foreach($owners as $owner){
+                        array_push($tmp, $owner->owner_name);
+                    }
+                    array_push($arrayStudents, $tmp);
+            }
+
+            foreach($contents as $content){
+                $tmp = [];
+                    $tags = tags::where('id_content', $content->id)->get();
+                    foreach($tags as $tag){
+                        array_push($tmp, $tag->tag);
+                    }
+                    array_push($arrayCategories, $tmp);
+            }
+
+        }else{
+
+            $contents =   DB::table('contents')
+            ->join('dosens', 'contents.id_dosen', '=', 'dosens.id')
+            ->join('users', 'dosens.id_user', '=', 'users.id')
+            ->select('contents.*', 'dosens.name')
+            ->where('users.id', '=', $userdata->id)
+            ->distinct()->paginate(7);
+            // $arraySpecialities = [];
+            $arrayCategories = [];
+            $arrayStudents = [];
+
+            foreach($contents as $content){
+                $tmp = [];
+                    $owners = owners::where('id_content', $content->id)->get();
+                    foreach($owners as $owner){
+                        array_push($tmp, $owner->owner_name);
+                    }
+                    array_push($arrayStudents, $tmp);
+            }
+
+            foreach($contents as $content){
+                $tmp = [];
+                    $tags = tags::where('id_content', $content->id)->get();
+                    foreach($tags as $tag){
+                        array_push($tmp, $tag->tag);
+                    }
+                    array_push($arrayCategories, $tmp);
+            }
         }
 
-        foreach($contents as $content){
-            $tmp = [];
-                $tags = tags::where('id_content', $content->id)->get();
-                foreach($tags as $tag){
-                    array_push($tmp, $tag->tag);
-                }
-                array_push($arrayCategories, $tmp);
-        }
+        // dd($arrayCategories);
 
         return view('admin.portofolio.portofolio', compact('contents', 'arrayCategories', 'arrayStudents'));
 
@@ -269,7 +307,7 @@ class adminPortoController extends Controller
             ->where('tittle', 'like', $request->input('query').'%')
             ->orWhere('tittle', 'like', '%'.$request->input('query'))
             ->distinct()
-            ->get();
+            ->paginate(8);
 
         }else if($request->input('query_type') == "Nama Dosen"){
             $contents =   DB::table('contents')
@@ -278,7 +316,7 @@ class adminPortoController extends Controller
             ->where('name', 'like', $request->input('query').'%')
             ->orWhere('name', 'like', '%'.$request->input('query'))
             ->distinct()
-            ->get();
+            ->paginate(8);
         }
         if($contents->isEmpty()){
             return redirect()->route('admin.porto.showAllPorto')->withErrors('Tidak ada hasil yang tersedia.');
@@ -309,24 +347,32 @@ class adminPortoController extends Controller
         return view('admin.portofolio.portofolio', compact('contents', 'arrayCategories', 'arrayStudents'));
     }
 
+
+
     public function addPorto(){
         $dropdownDosen = dosens::all();
         return view('admin.portofolio.addnewporto', compact('dropdownDosen'));
     }
 
+
+
     public function storePorto(Request $request){
 
+        $userdata = Auth::user();
          // Validasi data yang dikirim dari formulir
          $validator = Validator::make($request->all(), [
             'thumbnail_image_url' =>'nullable|image',
             'tittle' => 'required|max:255', // Ubah sesuai kebutuhan validasi Anda
+            'owner_name' => 'required|max:255', // Ubah sesuai kebutuhan validasi Anda
             'tipe_konten' => 'required|max:255',
             'owner_contact' => 'required|max:255',
-            'description' => 'required',
+            'description' => 'required|max:255',
+            'thumbnail_image_url' => 'required|max:5999', // Opsional jika ada
             'github_url' => 'nullable|url', // Opsional jika ada
             'content_url' => 'nullable|mimes:pdf,doc', // Opsional jika ada
             'video_url' => 'nullable|url', // Opsional jika ada
-            // 'image_url' => 'nullable|image' // Opsional jika ada
+            'video_tittle' => 'nullable|max:255', // Opsional jika ada
+            // 'image_url' =>'nullable|image' // Opsional jika ada
         ]);
 
 
@@ -336,8 +382,8 @@ class adminPortoController extends Controller
                         ->withInput();
         }
 
-        $folderthumbnailImage = public_path('storage/content');
-        $folderDocument = public_path('storage/thumbnail');
+        $folderDocument = public_path('content/document');
+        $folderthumbnailImage = public_path('content/thumbnail');
 
         if (!File::isDirectory($folderthumbnailImage)) {
             File::makeDirectory($folderthumbnailImage, 0777, true, true);
@@ -347,14 +393,15 @@ class adminPortoController extends Controller
             File::makeDirectory($folderDocument, 0777, true, true);
         }
 
+
+          // SIMPAN FILE DOKUMEN
         if($request->hasFile('content_url')){
-        // SIMPAN FILE DOKUMEN
         $filenameWithExt = $request->file('content_url')->getClientOriginalName();
         $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
         $extension = $request->file('content_url')->getClientOriginalExtension();
         $basename = uniqid() . time();
-        $filenameSimpandoc = "{$basename}.{$extension}";
-        $path = $request->file('content_url')->storeAs('public/content', $filenameSimpandoc);
+        $filenameSimpandoc = "{$filename}.{$basename}.{$extension}";
+        $path = $request->file('content_url')->storeAs('content/document', $filenameSimpandoc);
         }else{
             $filenameSimpandoc = null;
         }
@@ -365,36 +412,66 @@ class adminPortoController extends Controller
         $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
         $extension = $request->file('thumbnail_image_url')->getClientOriginalExtension();
         $basename = uniqid() . time();
-        $filenameSimpanthumb = "{$basename}.{$extension}";
-        $path = $request->file('thumbnail_image_url')->storeAs('public/thumbnail', $filenameSimpanthumb);
+        $filenameSimpanthumb = "{$filename}.{$basename}.{$extension}";
+        $thumbnailPath = public_path('content/thumbnail/' . $filenameSimpanthumb);
+        $data = $request->thumbnail_image_url;
+        Image::make($data)
+        ->fit(300, 400)
+        ->save($thumbnailPath);
 
 
-        $dosen =  DB::table('dosens')
-        ->select('dosens.*')
-        ->where('name', '=', $request->name)
-        ->first();
+        if($userdata->role == "Admin")
+        {
+            $dosen =  DB::table('dosens')
+            ->select('dosens.*')
+            ->where('name', '=', $request->name)
+            ->first();
 
 
-        $contents = contents::create([
-            'id_dosen' => $dosen->id,
-            'tittle' => $request->tittle,
-            'thumbnail_image_url' => $filenameSimpanthumb,
-            'tipe_konten' => $request->tipe_konten,
-            'owner_contact' => $request->owner_contact,
-            'description' => $request->description,
-            'owner' => $request->owner_name,
-            'github_url' => $request->github_url,
-            'content_url' => $filenameSimpandoc
-        ]);
+            $contents = contents::create([
+                'id_dosen' => $dosen->id,
+                'tittle' => $request->tittle,
+                'thumbnail_image_url' => $filenameSimpanthumb,
+                'tipe_konten' => $request->tipe_konten,
+                'owner_contact' => $request->owner_contact,
+                'video_url' => $request->video_url,
+                'video_tittle' => $request->video_tittle,
+                'description' => $request->description,
+                'owner' => $request->owner_name,
+                'github_url' => $request->github_url,
+                'content_url' => $filenameSimpandoc
+            ]);
 
+        }else{
+
+            $dosen =  DB::table('dosens')
+            ->select('dosens.*')
+            ->where('id_user', '=', $userdata->id )
+            ->first();
+
+            $contents = contents::create([
+                'id_dosen' => $dosen->id,
+                'tittle' => $request->tittle,
+                'thumbnail_image_url' => $filenameSimpanthumb,
+                'tipe_konten' => $request->tipe_konten,
+                'owner_contact' => $request->owner_contact,
+                'video_url' => $request->video_url,
+                'video_tittle' => $request->video_tittle,
+                'description' => $request->description,
+                'owner' => $request->owner_name,
+                'github_url' => $request->github_url,
+                'content_url' => $filenameSimpandoc
+            ]);
+        }
 
         // UPLOAD SIMPAN GAMBAR
-        $folderthumbnail = public_path('storage/content_image/thumbnail');
-        $folderPathOri = public_path('storage/content_image/original');
+        $folderthumbnail = public_path('content/content_image/thumbnail');
+        $folderPathOri = public_path('content/content_image/original');
 
         if (!File::isDirectory($folderthumbnail)) {
             File::makeDirectory($folderthumbnail, 0777, true, true);
         }
+
         if (!File::isDirectory($folderPathOri)) {
             File::makeDirectory($folderPathOri, 0777, true, true);
         }
@@ -405,21 +482,13 @@ class adminPortoController extends Controller
             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $data->getClientOriginalExtension();
             $basename = uniqid() . time();
-            $filenameSimpan = $filename . '_' . time() . '.' . $extension;
+            $filenameSimpan = "{$filename}.{$basename}.{$extension}";
+            $thumbnailPath = public_path('content/content_image/thumbnail/' . $filenameSimpan);
+            $path = $data->storeAs('content/content_image/original', $filenameSimpan);
 
-            $thumbnailPath = public_path('storage/content_image/thumbnail/' . $filenameSimpan);
-            // $image = $data->file('image_url');
-            // dd($data);
             Image::make($data)
-            ->fit(300, 400)
+            ->fit(400, 300)
             ->save($thumbnailPath);
-
-            $path = $data->storeAs('storage/content_image/original/', $filenameSimpan);
-
-            // $viewPath = public_path('storage/content_image/original/' . $filenameSimpan);
-            // Image::make($image)
-            //     ->fit(300, 400)
-            //     ->save($viewPath);
 
             content_images::create([
                 'id_content' => $contents->id,
@@ -438,10 +507,161 @@ class adminPortoController extends Controller
         return redirect()->route('admin.porto.showAllPorto')->with('success', 'Proyek berhasil ditambahkan.');
     }
 
+
+
     public function updatePorto(String $id){
         $content = contents::where('id', $id)->first();
         $dropdownDosen = dosens::all();
+
         // dd($content);
         return view('admin.portofolio.editporto', compact('content', 'dropdownDosen'));
     }
+
+
+    public function saveUpdate(Request $request, String $id){
+
+        $validator = Validator::make($request->all(), [
+            'thumbnail_image_url' =>'nullable|image',
+            'tittle' => 'required|max:255', // Ubah sesuai kebutuhan validasi Anda
+            'owner_name' => 'required|max:255', // Ubah sesuai kebutuhan validasi Anda
+            'tipe_konten' => 'required|max:255',
+            'owner_contact' => 'required|max:255',
+            'description' => 'required|max:255',
+            'thumbnail_image_url' => 'nullable|max:5999', // Opsional jika ada
+            'github_url' => 'required|url', // Opsional jika ada
+            'content_url' => 'nullable|mimes:pdf,doc', // Opsional jika ada
+            'video_url' => 'nullable|url', // Opsional jika ada
+            'video_tittle' => 'nullable|max:255', // Opsional jika ada
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+
+        $contents = contents::find($id);
+        $images =  content_images::where('id_content', $contents->id)->get();
+        $tags = tags::where('id_content', $contents->id)->get();
+
+        $contents->update([
+            'tittle' => $request->tittle,
+            'tipe_konten' => $request->tipe_konten,
+            'owner_contact' => $request->owner_contact,
+            'description' => $request->description,
+            'owner' => $request->owner_name,
+            'github_url' => $request->github_url,
+        ]);
+
+
+    if($request->hasFile('content_url')){
+            // SIMPAN FILE DOKUMEN
+            $filenameWithExt = $request->file('content_url')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('content_url')->getClientOriginalExtension();
+            $basename = uniqid() . time();
+            $filenameSimpandoc = "{$basename}.{$extension}";
+            Storage::delete('content/document/'.$contents->content_url);
+            $path = $request->file('content_url')->storeAs('content/document', $filenameSimpandoc);
+            $contents->update([
+                'content_url' => $filenameSimpandoc
+            ]);
+        }
+
+        if($request->hasFile('thumbnail_image_url')){
+            $filenameWithExt = $request->file('thumbnail_image_url')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('thumbnail_image_url')->getClientOriginalExtension();
+            $basename = uniqid() . time();
+            $filenameSimpanthumb = "{$basename}.{$extension}";
+            Storage::delete('content/thumbnail/'.$contents->thumbnail_image_url);
+            $thumbnailPath = public_path('content/thumbnail/' . $filenameSimpanthumb);
+            $data = $request->thumbnail_image_url;
+            Image::make($data)
+            ->fit(300, 400)
+            ->save($thumbnailPath);
+            $contents->update([
+                'thumbnail_image_url' => $filenameSimpanthumb
+            ]);
+        }
+
+        if($request->hasFile('image_url')){
+
+            $content_images = content_images::where('id_content', $contents->id)->get();
+            if ($content_images->count() > 0) {
+                content_images::where('id_content', $contents->id)->delete();
+            }
+
+            foreach($request->image_url as $data){
+
+                    $filenameWithExt = $data->getClientOriginalName();
+                    $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                    $extension = $data->getClientOriginalExtension();
+                    $basename = uniqid() . time();
+                    $filenameSimpan = "{$filename}.{$basename}.{$extension}";
+                    Storage::delete('content/content_image/thumbnail/'.$contents->thumbnail_image_url);
+                    Storage::delete('content/content_image/original/'.$contents->thumbnail_image_url);
+                    $thumbnailPath = public_path('content/content_image/thumbnail/' . $filenameSimpan);
+                    $path = $data->storeAs('content/content_image/original', $filenameSimpan);
+
+                    Image::make($data)
+                    ->fit(400, 300)
+                    ->save($thumbnailPath);
+
+                    content_images::create([
+                        'id_content' => $contents->id,
+                        'image_url' => $filenameSimpan
+                    ]);
+
+                }
+        }
+
+        if($request->hasFile('video_url')){
+            $contents->update([
+                'video_url' => $request->video_url,
+                'video_tittle' => $request->video_tittle,
+            ]);
+        }
+
+
+        $tags = tags::where('id_content', $contents->id)->get();
+        if ($tags->count() > 0) {
+            tags::where('id_content', $contents->id)->delete();
+        }
+
+        foreach($request->tag as $data){
+            tags::create([
+                'id_content' => $contents->id,
+                'tag' => $data
+            ]);
+        }
+
+        return redirect()->route('admin.porto.showAllPorto')->with('success', 'Project succesfully edited.');
+
+   }
+
+   public function deletePorto(String $id){
+    $contents = contents::find($id);
+
+    $images = DB::table('content_images')
+        ->select('*')
+        ->where('id_content', '=', $contents->id);
+
+     $tags = DB::table('tags')
+        ->select('*')
+        ->where('id_content', '=', $contents->id);
+
+
+    $contents->delete();
+    if($images!=null){
+        $images->delete();
+    };
+
+    if($tags!=null){
+        $tags->delete();
+    };
+
+    return redirect()->route('admin.porto.showAllPorto')->with('success', 'Project succesfully deleted.');
+   }
 }

@@ -256,7 +256,7 @@ public function store(Request $request)
         $dosens->delete();
         $accounts->delete();
         return redirect()->route('admin.account.showAllAccount')
-                ->withSuccess('Akun berhasil di hapus.');
+                ->withSuccess('Account succesfully deleted.');
     }
 
     public function kelolaProyek(String $id){
@@ -280,7 +280,7 @@ public function store(Request $request)
     // BARUU
 
     public function showAllAccount(){
-        $users = User::all();
+        $users = User::paginate(7);
         return view('admin.account.allaccount', compact('users'));
     }
 

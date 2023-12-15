@@ -1,4 +1,4 @@
-@extends('admin.kelola_akun.edit_akun.layouts')
+@extends('admin.dashboard.layouts')
 
 @section('content')
 
@@ -67,7 +67,7 @@
                             <div class="form-group">
                                 <label class="font-weight-bold">GAMBAR</label>
                                 <input type="file" class="form-control @error('image_profile') is-invalid @enderror" name="image_profile" id="image_profile">
-                            
+
                                 <!-- error message untuk title -->
                                 @error('image')
                                     <div class="alert alert-danger mt-2">
@@ -85,7 +85,7 @@
                                     @endif
                                 </div>
                             </div>
-        
+
 
                     <div class="mb-3 row">
                         <label for="contact" class="col-md-4 col-form-label text-md-end text-start">Kontak</label>
@@ -106,15 +106,15 @@
                             @endif
                         </div>
                     </div>
-                    
+
                     <div class="mb-3 row">
                         <input type="submit" class="col-md-3 offset-md-5 btn btn-primary" value="Tambah Akun">
                     </div>
-                    
+
                 </form>
             </div>
         </div>
-    </div>    
+    </div>
 </div>
-    
+
 @endsection
